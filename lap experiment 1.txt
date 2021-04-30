@@ -1,0 +1,90 @@
+
+mysql> create database INVOICE;
+Query OK, 1 row affected (0.26 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| invoice            |
+| ksb                |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.13 sec)
+
+mysql> use invoice'
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''' at line 1
+mysql> use invoice;
+Database changed
+mysql> create table customer(cust_id int not null primary key,address varchar(50),city varchar(20),ph_no int);
+Query OK, 0 rows affected (2.43 sec)
+
+mysql> create table product(p_id int not null primary key,p_name varchar(20),price int default 0);
+Query OK, 0 rows affected (0.79 sec)
+
+mysql> create table invoice_master(inv
+    -> create table invoice_master(inv_id int not null primary key,cust_id int,inv_date date,constraint cus_id foreign key(cust_id) references customer(cust_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'create table invoice_master(inv_id int not null primary key,cust_id int,inv_date' at line 2
+mysql> create table invoice_master(inv_id int not null primary key,cust_id int,inv_date date,constraint cus_id foreign key(cust_id) references customer(cust_id));
+Query OK, 0 rows affected (0.79 sec)
+
+mysql> create table invoice_item(inv_id int,p_id int,quantity int,constraint inv_id foreign key(inv_id) references invoice_master(inv_id),constraint p_id foreign key(p_id) references product(p_id));
+Query OK, 0 rows affected (1.03 sec)
+
+mysql> desc product
+    -> desc product;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc product' at line 2
+mysql> desc product;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| p_id   | int         | NO   | PRI | NULL    |       |
+| p_name | varchar(20) | YES  |     | NULL    |       |
+| price  | int         | YES  |     | 0       |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.10 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_invoice |
++-------------------+
+| customer          |
+| invoice_item      |
+| invoice_master    |
+| product           |
++-------------------+
+4 rows in set (0.04 sec)
+
+mysql> desc customer;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| cust_id | int         | NO   | PRI | NULL    |       |
+| address | varchar(50) | YES  |     | NULL    |       |
+| city    | varchar(20) | YES  |     | NULL    |       |
+| ph_no   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc invoice_master;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| inv_id   | int  | NO   | PRI | NULL    |       |
+| cust_id  | int  | YES  | MUL | NULL    |       |
+| inv_date | date | YES  |     | NULL    |       |
++----------+------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> desc invoice_item;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| inv_id   | int  | YES  | MUL | NULL    |       |
+| p_id     | int  | YES  | MUL | NULL    |       |
+| quantity | int  | YES  |     | NULL    |       |
++----------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
