@@ -1,0 +1,165 @@
+mysql>use invoice;
+database changed
+
+------------commit-----------------------
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
++---------+-----------+----------+--------+--------------+
+5 rows in set (0.03 sec)
+
+mysql> set autocommit=off;
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> insert into customer values(1006,'wayanad',52187963,'sebin','hari street');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer values(1007,'kannur',7841563,'vibin','sm street');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.00 sec)
+
+------------rollback-----------------------------------------
+
+mysql> insert into customer values(1008,'mlp',56235623,'vinu',' ars house');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into customer values(1009,'mlp',78635623,'raj',' raj house');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
+|    1008 | mlp       | 56235623 | vinu   |  ars house   |
+|    1009 | mlp       | 78635623 | raj    |  raj house   |
++---------+-----------+----------+--------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.00 sec)
+
+
+----------------savepoint-----------------------
+
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> savepoint t1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into customer values(1008,'mlp',12332145,'raj','raj house');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> savepoint t2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into customer values(1009,'mlp',93332145,'jilu','jilu house');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint t3;
+Query OK, 0 rows affected (0.00 sec)
+
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
+|    1008 | mlp       | 12332145 | raj    | raj house    |
+|    1009 | mlp       | 93332145 | jilu   | jilu house   |
++---------+-----------+----------+--------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> rollback to t2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
+|    1008 | mlp       | 12332145 | raj    | raj house    |
++---------+-----------+----------+--------+--------------+
+8 rows in set (0.00 sec)
