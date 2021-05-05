@@ -1,0 +1,50 @@
+
+mysql> use invoice;
+Database changed
+mysql> select * from customer;
++---------+---------+----------+--------+--------------+
+| cust_id | city    | ph_no    | name   | address      |
++---------+---------+----------+--------+--------------+
+|    1001 | ekm     | 78945612 | Arun   | lal road     |
+|    1002 | mlp     | 45612314 | rahul  | ellil road   |
+|    1003 | calicut |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm     |     NULL | arshid | hall nagar   |
+|    1005 | ksd     | 12345678 | ain    | kunnil house |
++---------+---------+----------+--------+--------------+
+5 rows in set (0.10 sec)
+
+1.update city 'calicut' to 'kozhikode' in the customer table------------------- 
+
+mysql> update customer set city='kozhikode' where city='calicut';
+Query OK, 1 row affected (0.60 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 45612314 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
++---------+-----------+----------+--------+--------------+
+5 rows in set (0.00 sec)
+
+2.update ph no of a particular customer---------------------------------
+
+mysql> update customer set ph_no=88914050 where cust_id=1002;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
++---------+-----------+----------+--------+--------------+
+5 rows in set (0.03 sec)
