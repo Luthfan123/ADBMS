@@ -1,0 +1,230 @@
+
+mysql> use invoice;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_invoice |
++-------------------+
+| customer          |
+| invoice_item      |
+| invoice_master    |
+| product           |
++-------------------+
+4 rows in set (2.31 sec)
+
+1.List all customer details.
+
+mysql> select * from customer;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.81 sec)
+
+2.List pname,price of all products.
+
+mysql> select p_name,price from product;
++----------------+-------+
+| p_name         | price |
++----------------+-------+
+| soap           |    34 |
+| coconut oil    |   140 |
+| chilly powder  |    66 |
+| coconut oil    |   162 |
+| pen            |    34 |
+| pencil         |    12 |
+| notebook       |    82 |
+| scale          |    54 |
+| eraser         |    30 |
+| instrument box |   140 |
+| writing pad    |    75 |
++----------------+-------+
+11 rows in set (0.10 sec)
+
+3.List all invoice items, avoid duplicates.
+mysql> select distinct p_id from invoice_item;
++-------+
+| p_id  |
++-------+
+| 10003 |
+| 10005 |
+| 10006 |
+| 10007 |
+| 10009 |
+| 10010 |
++-------+
+6 rows in set (0.40 sec)
+
+4.List product price between 50rs and 150rs
+
+mysql> select * from product where price between 50 and 150;
++-------+----------------+-------+
+| p_id  | p_name         | price |
++-------+----------------+-------+
+| 10002 | coconut oil    |   140 |
+| 10003 | chilly powder  |    66 |
+| 10007 | notebook       |    82 |
+| 10008 | scale          |    54 |
+| 10010 | instrument box |   140 |
+| 10011 | writing pad    |    75 |
++-------+----------------+-------+
+6 rows in set (0.03 sec)
+
+5.List the customer details who lives in ‘ekm’,’kozhikode’.
+
+mysql> select * from customer where city in ('ekm','kozhikode');
++---------+-----------+----------+--------+-------------+
+| cust_id | city      | ph_no    | name   | address     |
++---------+-----------+----------+--------+-------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road    |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar |
+|    1004 | ekm       |     NULL | arshid | hall nagar  |
++---------+-----------+----------+--------+-------------+
+3 rows in set (0.00 sec)
+
+6.List the invoice details from 1st January 2021 to 31st march 2021
+
+mysql> select * from invoice_master where inv_date between '2021-01-01' and '2021-03-31';
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+| 100001 |    1003 | 2021-01-01 |
+| 100010 |    1003 | 2021-01-23 |
+| 100021 |    1005 | 2021-02-14 |
+| 100036 |    1001 | 2021-03-25 |
++--------+---------+------------+
+4 rows in set (0.35 sec)
+
+7.List the customer details who not live in ‘kozhikode’.
+
+mysql> select * from customer where city!='kozhikode';
++---------+---------+----------+--------+--------------+
+| cust_id | city    | ph_no    | name   | address      |
++---------+---------+----------+--------+--------------+
+|    1001 | ekm     | 78945612 | Arun   | lal road     |
+|    1002 | mlp     | 88914050 | rahul  | ellil road   |
+|    1004 | ekm     |     NULL | arshid | hall nagar   |
+|    1005 | ksd     | 12345678 | ain    | kunnil house |
+|    1006 | wayanad | 52187963 | sebin  | hari street  |
+|    1007 | kannur  |  7841563 | vibin  | sm street    |
++---------+---------+----------+--------+--------------+
+6 rows in set (0.04 sec)
+
+8.List the customers who have no phone number.
+
+mysql> select * from customer where ph_no is null;
++---------+-----------+-------+--------+-------------+
+| cust_id | city      | ph_no | name   | address     |
++---------+-----------+-------+--------+-------------+
+|    1003 | kozhikode |  NULL | aiden  | jolly nagar |
+|    1004 | ekm       |  NULL | arshid | hall nagar  |
++---------+-----------+-------+--------+-------------+
+2 rows in set (0.00 sec)
+
+9.Display customer names in descending order.
+
+mysql> select * from customer order by name desc;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.04 sec)
+
+10.Display the customer details sorted in ascending by city and descending by names
+
+mysql> select * from customer order by city asc,name desc;
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.00 sec)
+
+11.Find the customer names start with ‘A’.
+
+mysql> select * from customer where name like 'a%';
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
++---------+-----------+----------+--------+--------------+
+4 rows in set (0.03 sec)
+
+12.Find the customer names who have ‘e’ or ‘a’ in them.
+
+mysql> select * from customer where name like '%e%' or name like '%a%';
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
++---------+-----------+----------+--------+--------------+
+6 rows in set (0.00 sec)
+
+13.Find the customer names who have at least 3 characters
+
+mysql> select * from customer where name like '___%';
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.00 sec)
+
+14.List the names of customers their names have ‘r’ in second position.
+
+mysql> select * from customer where name like '_r%';
++---------+------+----------+--------+------------+
+| cust_id | city | ph_no    | name   | address    |
++---------+------+----------+--------+------------+
+|    1001 | ekm  | 78945612 | Arun   | lal road   |
+|    1004 | ekm  |     NULL | arshid | hall nagar |
++---------+------+----------+--------+------------+
+2 rows in set (0.00 sec)
+
+15.Find the customer names start with ‘a’ and are at least 3 characters in length.
+
+mysql> select * from customer where name like 'a__%';
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
++---------+-----------+----------+--------+--------------+
+4 rows in set (0.00 sec)
+
