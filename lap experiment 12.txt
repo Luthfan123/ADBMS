@@ -1,0 +1,61 @@
+mysql> use invoice;
+Database changed
+
+1.List the product name and quantity of invoice items.
+
+mysql> select product.p_name,invoice_item.quantity from invoice_item natural join product;
++----------------+----------+
+| p_name         | quantity |
++----------------+----------+
+| pen            |        2 |
+| pencil         |        2 |
+| notebook       |        6 |
+| eraser         |        1 |
+| instrument box |        1 |
+| chilly powder  |        2 |
+| pen            |        1 |
++----------------+----------+
+7 rows in set (0.50 sec)
+
+2.Display invoice details of the transaction dated '2021-01-23'.
+
+mysql> select * from invoice_master natural join invoice_item natural join product natural join customer where inv_date='2021-01-23';
++---------+-------+--------+------------+----------+---------------+-------+-----------+-------+-------+-------------+
+| cust_id | p_id  | inv_id | inv_date   | quantity | p_name        | price | city      | ph_no | name  | address     |
++---------+-------+--------+------------+----------+---------------+-------+-----------+-------+-------+-------------+
+|    1003 | 10003 | 100010 | 2021-01-23 |        2 | chilly powder |    66 | kozhikode |  NULL | aiden | jolly nagar |
+|    1003 | 10005 | 100010 | 2021-01-23 |        1 | pen           |    34 | kozhikode |  NULL | aiden | jolly nagar |
++---------+-------+--------+------------+----------+---------------+-------+-----------+-------+-------+-------------+
+2 rows in set (0.14 sec)
+
+3.Display the customer name, product name, invoice date of purchased item 'pen'.
+
+mysql> select customer.name,product.p_name,invoice_master.inv_date from invoice_master natural join invoice_item natural join product natural join customer where p_name='pencil';
++-------+--------+------------+
+| name  | p_name | inv_date   |
++-------+--------+------------+
+| aiden | pencil | 2021-01-01 |
++-------+--------+------------+
+1 row in set (0.04 sec)
+
+4.Display all customer details and invoice details must include customer has not purchased items.
+
+mysql> select * from invoice_master natural join invoice_item right join customer on invoice_master.cust_id=customer.cust_id;
++--------+---------+------------+-------+----------+---------+-----------+----------+--------+--------------+
+| inv_id | cust_id | inv_date   | p_id  | quantity | cust_id | city      | ph_no    | name   | address      |
++--------+---------+------------+-------+----------+---------+-----------+----------+--------+--------------+
+|   NULL |    NULL | NULL       |  NULL |     NULL |    1001 | ekm       | 78945612 | Arun   | lal road     |
+|   NULL |    NULL | NULL       |  NULL |     NULL |    1002 | mlp       | 88914050 | rahul  | ellil road   |
+| 100001 |    1003 | 2021-01-01 | 10005 |        2 |    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+| 100001 |    1003 | 2021-01-01 | 10006 |        2 |    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+| 100001 |    1003 | 2021-01-01 | 10007 |        6 |    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+| 100001 |    1003 | 2021-01-01 | 10009 |        1 |    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+| 100001 |    1003 | 2021-01-01 | 10010 |        1 |    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+| 100010 |    1003 | 2021-01-23 | 10003 |        2 |    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+| 100010 |    1003 | 2021-01-23 | 10005 |        1 |    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|   NULL |    NULL | NULL       |  NULL |     NULL |    1004 | ekm       |     NULL | arshid | hall nagar   |
+|   NULL |    NULL | NULL       |  NULL |     NULL |    1005 | ksd       | 12345678 | ain    | kunnil house |
+|   NULL |    NULL | NULL       |  NULL |     NULL |    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|   NULL |    NULL | NULL       |  NULL |     NULL |    1007 | kannur    |  7841563 | vibin  | sm street    |
++--------+---------+------------+-------+----------+---------+-----------+----------+--------+--------------+
+13 rows in set (0.04 sec)
