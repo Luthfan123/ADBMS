@@ -1,0 +1,118 @@
+mysql> use invoice
+Database changed
+
+1.create a procedure to display all tables in the invoice database.
+
+mysql> delimiter //
+mysql> create procedure getall_tables()
+    -> begin
+    -> select * from customer;
+    -> select * from product;
+    -> select * from invoice_master;
+    -> select * from invoice_item;
+    -> end //
+Query OK, 0 rows affected (4.80 sec)
+
+mysql> delimiter ;
+mysql> call getall_tables();
++---------+-----------+----------+--------+--------------+
+| cust_id | city      | ph_no    | name   | address      |
++---------+-----------+----------+--------+--------------+
+|    1001 | ekm       | 78945612 | Arun   | lal road     |
+|    1002 | mlp       | 88914050 | rahul  | ellil road   |
+|    1003 | kozhikode |     NULL | aiden  | jolly nagar  |
+|    1004 | ekm       |     NULL | arshid | hall nagar   |
+|    1005 | ksd       | 12345678 | ain    | kunnil house |
+|    1006 | wayanad   | 52187963 | sebin  | hari street  |
+|    1007 | kannur    |  7841563 | vibin  | sm street    |
++---------+-----------+----------+--------+--------------+
+7 rows in set (0.35 sec)
+
++-------+----------------+-------+
+| p_id  | p_name         | price |
++-------+----------------+-------+
+| 10001 | soap           |    34 |
+| 10002 | coconut oil    |   140 |
+| 10003 | chilly powder  |    66 |
+| 10004 | coconut oil    |   162 |
+| 10005 | pen            |    34 |
+| 10006 | pencil         |    12 |
+| 10007 | notebook       |    82 |
+| 10008 | scale          |    54 |
+| 10009 | eraser         |    30 |
+| 10010 | instrument box |   140 |
+| 10011 | writing pad    |    75 |
++-------+----------------+-------+
+11 rows in set (0.38 sec)
+
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+| 100001 |    1003 | 2021-01-01 |
+| 100010 |    1003 | 2021-01-23 |
+| 100021 |    1005 | 2021-02-14 |
+| 100036 |    1001 | 2021-03-25 |
+| 100040 |    1001 | 2021-04-12 |
+| 100045 |    1004 | 2021-04-28 |
+| 100050 |    1002 | 2021-05-04 |
++--------+---------+------------+
+7 rows in set (0.44 sec)
+
++--------+-------+----------+
+| inv_id | p_id  | quantity |
++--------+-------+----------+
+| 100001 | 10005 |        2 |
+| 100001 | 10006 |        2 |
+| 100001 | 10007 |        6 |
+| 100001 | 10009 |        1 |
+| 100001 | 10010 |        1 |
+| 100010 | 10003 |        2 |
+| 100010 | 10005 |        1 |
++--------+-------+----------+
+7 rows in set (0.48 sec)
+
+Query OK, 0 rows affected (0.51 sec)
+
+2.create a procedure to find greatest of 3 numbers.
+
+mysql> delimiter //
+mysql> create procedure getgreatest_number(n1 int,n2 int,n3 int)
+    -> begin
+    -> if n1 > n2 and n1 > n3 then select n1 as 'greatest_number';
+    -> elseif n2 > n1 and n2 > n3 then select n2 as 'greatest_number';
+    -> else select n3 as 'greatest_number';
+    -> end if;
+    -> end //
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> delimiter ;
+mysql> call getgreatest_number(22,66,18);
++-----------------+
+| greatest_number |
++-----------------+
+|              66 |
++-----------------+
+1 row in set (0.07 sec)
+
+Query OK, 0 rows affected (0.08 sec)
+
+3.create a procedure to display invoice details of a particular customer.
+
+mysql> delimiter //
+mysql> create procedure getinvoice_details(name varchar(20))
+    -> begin
+    -> select inv_id,inv_date,sum(price * quantity)as total_amount from customer natural join product natural join invoice_master natural join invoice_item where customer.name=name group by inv_id;
+    -> end //
+Query OK, 0 rows affected (0.66 sec)
+
+mysql> delimiter ;
+mysql> call getinvoice_details('aiden');
++--------+------------+--------------+
+| inv_id | inv_date   | total_amount |
++--------+------------+--------------+
+| 100001 | 2021-01-01 |          754 |
+| 100010 | 2021-01-23 |          166 |
++--------+------------+--------------+
+2 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
