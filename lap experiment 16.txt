@@ -1,0 +1,38 @@
+mysql> use invoice
+Database changed
+
+1.Create a function to calculate price_range(low, medium, high) of each product. If price<=20 indicate as low, 
+  upto 50 indicate as medium, and above as high.
+
+mysql> delimiter //
+mysql> create function price_range(price int) returns varchar(10)
+    -> deterministic
+    -> begin
+    -> if price <=20 then
+    -> return 'low';
+    -> elseif price <=50 then
+    -> return 'medium';
+    -> else
+    -> return 'high';
+    -> end if;
+    -> end //
+Query OK, 0 rows affected (1.29 sec)
+
+mysql> delimiter ;
+mysql> select p_id,p_name,price,price_range(price) from product;
++-------+----------------+-------+--------------------+
+| p_id  | p_name         | price | price_range(price) |
++-------+----------------+-------+--------------------+
+| 10001 | soap           |    34 | medium             |
+| 10002 | coconut oil    |   140 | high               |
+| 10003 | chilly powder  |    66 | high               |
+| 10004 | coconut oil    |   162 | high               |
+| 10005 | pen            |    34 | medium             |
+| 10006 | pencil         |    12 | low                |
+| 10007 | notebook       |    82 | high               |
+| 10008 | scale          |    54 | high               |
+| 10009 | eraser         |    30 | medium             |
+| 10010 | instrument box |   140 | high               |
+| 10011 | writing pad    |    75 | high               |
++-------+----------------+-------+--------------------+
+11 rows in set (0.59 sec)
