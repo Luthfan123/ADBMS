@@ -74,3 +74,6 @@ mysql> select * from product where p_id in(select p_id from invoice_item where q
 | 10003 | chilly powder |    66 |
 +-------+---------------+-------+
 3 rows in set (0.21 sec)
+
+
+//verified
