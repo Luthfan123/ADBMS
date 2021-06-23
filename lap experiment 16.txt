@@ -36,3 +36,6 @@ mysql> select p_id,p_name,price,price_range(price) from product;
 | 10011 | writing pad    |    75 | high               |
 +-------+----------------+-------+--------------------+
 11 rows in set (0.59 sec)
+
+
+//verified
