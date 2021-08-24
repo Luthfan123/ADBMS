@@ -82,3 +82,6 @@ mysql> select * from product;
 | 10012 | stick          |    20 |
 +-------+----------------+-------+
 12 rows in set (0.00 sec)
+
+
+//verified
