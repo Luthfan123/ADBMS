@@ -1,0 +1,82 @@
+>use invoice
+switched to db invoice
+
+> db.customer.find().pretty()
+{ "_id" : ObjectId("613861371ccb92fef4260407"), "name" : "rahul" }
+{
+        "_id" : ObjectId("613862811ccb92fef4260409"),
+        "name" : "vibin",
+        "address" : "joli-nagar",
+        "city" : "kannur",
+        "phno" : "7894561230",
+        "age" : "48"
+}
+{
+        "_id" : ObjectId("613862ab1ccb92fef426040a"),
+        "name" : "sona",
+        "address" : "sai-nagar",
+        "city" : "calicut",
+        "phno" : "123456789",
+        "age" : "52"
+}
+{
+        "_id" : ObjectId("613862f81ccb92fef426040b"),
+        "name" : "sanjay",
+        "address" : "silk-nagar",
+        "city" : "kochi",
+        "phno" : "456789123",
+        "age" : "26"
+}
+
+1.Write a MongoDB query to display the customer documents having city 'kannur','calicut'.
+
+> db.customer.find({$or:[{city:"kannur"},{city:"calicut"}]}).pretty()
+{
+        "_id" : ObjectId("613862811ccb92fef4260409"),
+        "name" : "vibin",
+        "address" : "joli-nagar",
+        "city" : "kannur",
+        "phno" : "7894561230",
+        "age" : "48"
+}
+{
+        "_id" : ObjectId("613862ab1ccb92fef426040a"),
+        "name" : "sona",
+        "address" : "sai-nagar",
+        "city" : "calicut",
+        "phno" : "123456789",
+        "age" : "52"
+}
+
+2.Write a MongoDB query to display all customer documents who have age >50.
+
+> db.customer.find({age:{$gt:"50"}}).pretty()
+{
+        "_id" : ObjectId("613862ab1ccb92fef426040a"),
+        "name" : "sona",
+        "address" : "sai-nagar",
+        "city" : "calicut",
+        "phno" : "123456789",
+        "age" : "52"
+}
+
+3.Write a MongoDB query to find customer documents who not live in 'calicut'.
+
+> db.customer.find({city:{$ne:"calicut"}}).pretty()
+{ "_id" : ObjectId("613861371ccb92fef4260407"), "name" : "rahul" }
+{
+        "_id" : ObjectId("613862811ccb92fef4260409"),
+        "name" : "vibin",
+        "address" : "joli-nagar",
+        "city" : "kannur",
+        "phno" : "7894561230",
+        "age" : "48"
+}
+{
+        "_id" : ObjectId("613862f81ccb92fef426040b"),
+        "name" : "sanjay",
+        "address" : "silk-nagar",
+        "city" : "kochi",
+        "phno" : "456789123",
+        "age" : "26"
+}
