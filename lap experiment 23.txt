@@ -637,3 +637,4 @@ ksb:SECONDARY> db.PRODUCT.find()
 
 In secondary server we can only perform read operations.
 
+//verified
